@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPPG AYULA - Menu Makan Bergizi Gratis (MBG)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts Inter & Outfit -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            800: '#0b1d3a',
+                            900: '#071326',
+                        },
+                        bgn: {
+                            blue: '#0d2847',
+                            lightblue: '#dbeafe',
+                            gold: '#d97706',
+                            goldlight: '#fef3c7',
+                            green: '#16a34a',
+                            greenlight: '#f0fdf4'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-bgn-blue selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Brand Name -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <div class="relative w-12 h-12 rounded-full overflow-hidden border-2 border-amber-500 shadow-sm flex-shrink-0 bg-bgn-blue">
+                        <img id="header-logo-img" src="https://upload.wikimedia.org/wikipedia/commons/e/e0/Logo_Badan_Gizi_Nasional.png" 
+                             alt="Logo Badan Gizi Nasional" 
+                             class="w-full h-full object-cover"
+                             onerror="this.onerror=null; this.src='https://placehold.co/100x100/0d2847/ffffff?text=BGN';">
+                    </div>
+
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h1 id="header-kitchen-name" class="text-xl sm:text-2xl font-black font-heading tracking-tight text-slate-900">SPPG AYULA</h1>
+                            <span id="header-badge" class="hidden sm:inline-block px-2.5 py-0.5 text-xs font-bold bg-amber-100 text-amber-800 rounded-full border border-amber-200">Dapur MBG</span>
+                        </div>
+                        <p id="header-subtitle" class="text-xs text-slate-500 font-semibold">Menu Makan Bergizi Gratis (MBG) • Badan Gizi Nasional</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Switcher -->
+                <nav class="flex items-center bg-slate-100 p-1.5 rounded-xl border border-slate-200">
+                    <button id="btn-tab-public" onclick="switchTab('public')" class="flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm bg-bgn-blue text-white">
+                        <i data-lucide="eye" class="w-4 h-4"></i>
+                        <span>Tampilan Publik</span>
+                    </button>
+                    <button id="btn-tab-admin" onclick="switchTab('admin')" class="flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200">
+                        <i data-lucide="lock" class="w-4 h-4"></i>
+                        <span>Panel Admin</span>
+                    </button>
+                </nav>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- VIEW 1: PUBLIC INTERFACE -->
+        <section id="view-public" class="space-y-8 animate-fade-in">
+            
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-navy-900 via-bgn-blue to-teal-900 text-white p-6 sm:p-10 shadow-xl border border-amber-500/20">
+                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+                    <i data-lucide="utensils-crossed" class="w-96 h-96"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-xs font-semibold text-amber-300 mb-4">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        <span>Standar Nilai Gizi Resmi BGN</span>
+                    </div>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold font-heading tracking-tight text-white mb-3 leading-tight">
+                        Menu Harian Makan Bergizi Gratis (MBG)
+                    </h2>
+                    <p class="text-slate-200 text-sm sm:text-base leading-relaxed mb-6">
+                        Informasi sajian gizi seimbang harian dari <strong id="hero-kitchen-name">Dapur SPPG AYULA</strong>. Pilih tanggal untuk melihat riwayat menu harian atau klik pilihan porsi untuk rincian gizi.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Filter Riwayat Tanggal Bar -->
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="p-2.5 bg-amber-100 text-amber-800 rounded-xl">
+                        <i data-lucide="calendar" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900">Riwayat Tanggal Sajian</h3>
+                        <p class="text-xs text-slate-500">Filter tampilan menu berdasarkan tanggal pembuatan/sajian</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <label for="public-date-filter" class="text-xs font-semibold text-slate-600 whitespace-nowrap">Filter Tanggal:</label>
+                    <select id="public-date-filter" onchange="filterPublicByDate()" class="w-full sm:w-auto px-3 py-2 text-xs font-semibold rounded-xl border border-slate-300 bg-slate-50 focus:ring-2 focus:ring-bgn-blue outline-none">
+                        <option value="ALL">Semua Tanggal (Riwayat Lengkap)</option>
+                        <!-- Dynamic date options populated via JS -->
+                    </select>
+                </div>
+            </div>
+
+            <!-- Section Title -->
+            <div class="border-b border-slate-200 pb-2 flex items-center justify-between">
+                <div>
+                    <h3 class="text-xl font-bold font-heading text-slate-900">Daftar Menu MBG</h3>
+                    <p class="text-xs text-slate-500">Menampilkan hasil sesuai pilihan tanggal dan porsi</p>
+                </div>
+            </div>
+
+            <!-- Public Menu Grid -->
+            <div id="public-menu-grid" class="space-y-8">
+                <!-- Cards injected dynamically via JS -->
+            </div>
+
+            <!-- Empty State -->
+            <div id="public-empty-state" class="hidden text-center py-16 bg-white rounded-2xl border border-dashed border-slate-300">
+                <i data-lucide="utensils" class="w-12 h-12 text-slate-400 mx-auto mb-3"></i>
+                <h4 class="text-base font-semibold text-slate-700">Belum Ada Menu Tampil</h4>
+                <p class="text-xs text-slate-500 max-w-sm mx-auto mt-1">Silahkan masukkan menu baru melalui Panel Admin atau pilih tanggal lain pada filter.</p>
+            </div>
+
+        </section>
+
+        <!-- VIEW 2: ADMIN PANEL -->
+        <section id="view-admin" class="hidden space-y-8 animate-fade-in">
+            
+            <!-- Auth Lock Overlay -->
+            <div id="admin-auth-modal" class="max-w-md mx-auto my-12 bg-white p-8 rounded-3xl border border-slate-200 shadow-xl text-center">
+                <div class="w-16 h-16 bg-bgn-lightblue text-bgn-blue rounded-2xl flex items-center justify-center mx-auto mb-4 border border-blue-200">
+                    <i data-lucide="lock" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-2xl font-bold font-heading text-slate-900 mb-1">Akses Panel Admin</h3>
+                <p class="text-xs text-slate-500 mb-6">Masukkan PIN Keamanan untuk menginput menu Dapur SPPG AYULA.</p>
+
+                <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                    <div>
+                        <input type="password" id="pin-input" maxlength="6" placeholder="Masukkan PIN" 
+                            class="w-full text-center text-2xl tracking-[0.5em] font-mono py-3 px-4 rounded-xl border border-slate-300 focus:ring-2 focus:ring-bgn-blue focus:border-bgn-blue outline-none transition-all">
+                        <p id="pin-error" class="hidden text-xs text-rose-500 font-medium mt-2 flex items-center justify-center gap-1">
+                            <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> PIN Salah! Silahkan coba lagi.
+                        </p>
+                    </div>
+                    <button type="submit" class="w-full bg-bgn-blue hover:bg-navy-800 text-white font-semibold py-3 rounded-xl transition-all shadow-md text-sm">
+                        Masuk Panel Admin
+                    </button>
+                </form>
+                <p class="text-[11px] text-slate-400 mt-4">Restricted Area • SPPG AYULA</p>
+            </div>
+
+            <!-- Admin Content (Visible when Auth = true) -->
+            <div id="admin-dashboard" class="hidden space-y-8">
+                
+                <!-- Admin Header Bar -->
+                <div class="bg-navy-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-lg border-l-4 border-amber-500">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-white/10 rounded-xl text-amber-400">
+                            <i data-lucide="sliders" class="w-6 h-6"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold font-heading">Panel Inputan Menu MBG</h2>
+                            <p class="text-xs text-slate-300"><span id="admin-bar-kitchen-name">Dapur SPPG AYULA</span> • Kelola Gambar Porsi, Komponen Bahan, & AKG Per Porsi</p>
+                        </div>
+                    </div>
+                    <button onclick="lockAdmin()" class="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-xl text-slate-300 transition-all border border-slate-700">
+                        <i data-lucide="log-out" class="w-4 h-4"></i>
+                        <span>Kunci Session</span>
+                    </button>
+                </div>
+
+                <!-- Card Pengaturan Profil & Nama Dapur -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                    <h3 class="text-lg font-bold font-heading text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
+                        <i data-lucide="building" class="w-5 h-5 text-amber-500"></i>
+                        <span>Pengaturan Profil & Nama Dapur</span>
+                    </h3>
+
+                    <form id="settings-form" onsubmit="handleSaveSettings(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nama Dapur *</label>
+                                <input type="text" id="setting-kitchen-name" required placeholder="Contoh: SPPG AYULA" 
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-bgn-blue focus:border-bgn-blue outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Label Badge Dapur</label>
+                                <input type="text" id="setting-badge" required placeholder="Contoh: Dapur MBG" 
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-bgn-blue focus:border-bgn-blue outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Keterangan / Subtitle Dapur</label>
+                            <input type="text" id="setting-subtitle" required placeholder="Contoh: Menu Makan Bergizi Gratis (MBG) • Badan Gizi Nasional" 
+                                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-bgn-blue focus:border-bgn-blue outline-none">
+                        </div>
+
+                        <!-- Upload Gambar Logo Dapur -->
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Logo Dapur / BGN (Upload Gambar) *</label>
+                            <div class="flex items-center gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                                <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-amber-500 bg-bgn-blue flex-shrink-0 relative shadow-sm">
+                                    <img id="setting-logo-preview" src="" alt="Preview Logo" class="w-full h-full object-cover">
+                                </div>
+                                <div class="flex-grow">
+                                    <input type="file" id="setting-logo-file" accept="image/*" onchange="previewLogoImage(event)" class="w-full text-xs text-slate-500 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-bgn-lightblue file:text-bgn-blue hover:file:bg-blue-200 cursor-pointer">
+                                    <p class="text-[10px] text-slate-400 mt-1.5">Format file: JPG, PNG, atau WebP. Pilih gambar logo resmi dapur Anda.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-end pt-2">
+                            <button type="submit" class="px-6 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold shadow-md transition-all flex items-center gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                                <span>Simpan Pengaturan Profil</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Form Card -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+                    <h3 class="text-lg font-bold font-heading text-slate-900 mb-6 flex items-center gap-2 border-b border-slate-100 pb-4">
+                        <i data-lucide="plus-circle" class="w-5 h-5 text-bgn-blue"></i>
+                        <span id="form-title">Input Menu MBG Baru</span>
+                    </h3>
+
+                    <form id="menu-form" onsubmit="handleSaveMenu(event)" class="space-y-6">
+                        <input type="hidden" id="menu-id">
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <!-- Nama Menu -->
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Nama Menu MBG *</label>
+                                <input type="text" id="menu-name" required placeholder="Contoh: Paket Ayam Nasi Merah & Sup Sayur Segar" 
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-bgn-blue focus:border-bgn-blue outline-none">
+                            </div>
+
+                            <!-- Tanggal Sajian / Riwayat Tanggal -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                    <i data-lucide="calendar-days" class="w-4 h-4 text-amber-600"></i>
+                                    Tanggal Sajian / Menu *
+                                </label>
+                                <input type="date" id="menu-date" required 
+                                    class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-bgn-blue focus:border-bgn-blue outline-none bg-slate-50">
+                            </div>
+                        </div>
+
+                        <!-- Upload Foto Terpisah 3 Jenis Porsi -->
+                        <div class="pt-2">
+                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-3 flex items-center gap-2">
+                                <i data-lucide="image" class="w-4 h-4 text-bgn-blue"></i>
+                                Upload Foto Menu Menurut Jenis Porsi *
+                            </label>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                
+                                <!-- Foto Porsi Besar -->
+                                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                                    <span class="block text-xs font-bold text-slate-800 mb-1">1. Foto Porsi Besar</span>
+                                    <span class="block text-[10px] text-slate-500 mb-2">Siswa SD / SMP / SMA</span>
+                                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center bg-white relative">
+                                        <input type="file" id="img-porsi-besar" accept="image/*" onchange="previewPortionImage(event, 'besar')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                        <div id="container-besar" class="hidden w-full h-32 rounded-lg overflow-hidden relative">
+                                            <img id="prev-besar" src="" class="w-full h-full object-cover">
+                                        </div>
+                                        <div id="ph-besar" class="py-4 space-y-1">
+                                            <i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400 mx-auto"></i>
+                                            <p class="text-[11px] font-semibold text-slate-600">Pilih Foto Porsi Besar</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Foto Porsi Kecil -->
+                                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                                    <span class="block text-xs font-bold text-slate-800 mb-1">2. Foto Porsi Kecil</span>
+                                    <span class="block text-[10px] text-slate-500 mb-2">Anak PAUD / TK</span>
+                                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center bg-white relative">
+                                        <input type="file" id="img-porsi-kecil" accept="image/*" onchange="previewPortionImage(event, 'kecil')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                        <div id="container-kecil" class="hidden w-full h-32 rounded-lg overflow-hidden relative">
+                                            <img id="prev-kecil" src="" class="w-full h-full object-cover">
+                                        </div>
+                                        <div id="ph-kecil" class="py-4 space-y-1">
+                                            <i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400 mx-auto"></i>
+                                            <p class="text-[11px] font-semibold text-slate-600">Pilih Foto Porsi Kecil</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Foto Porsi B3 -->
+                                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                                    <span class="block text-xs font-bold text-slate-800 mb-1">3. Foto Porsi B3</span>
+                                    <span class="block text-[10px] text-slate-500 mb-2">BUMIL, BUSUI, BALITA</span>
+                                    <div class="border-2 border-dashed border-slate-300 rounded-xl p-3 text-center bg-white relative">
+                                        <input type="file" id="img-porsi-b3" accept="image/*" onchange="previewPortionImage(event, 'b3')" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                                        <div id="container-b3" class="hidden w-full h-32 rounded-lg overflow-hidden relative">
+                                            <img id="prev-b3" src="" class="w-full h-full object-cover">
+                                        </div>
+                                        <div id="ph-b3" class="py-4 space-y-1">
+                                            <i data-lucide="upload-cloud" class="w-6 h-6 text-slate-400 mx-auto"></i>
+                                            <p class="text-[11px] font-semibold text-slate-600">Pilih Foto Porsi B3</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- Input Komponen Menu Makanan -->
+                        <div class="pt-4 border-t border-slate-100">
+                            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider mb-4 flex items-center gap-2">
+                                <i data-lucide="utensils" class="w-4 h-4 text-amber-500"></i>
+                                Input Komponen Bahan Makanan
+                            </h4>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Karbohidrat</label>
+                                    <input type="text" id="comp-karbo" required placeholder="Contoh: Nasi Merah (150g)" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Protein Hewani</label>
+                                    <input type="text" id="comp-hewan" required placeholder="Contoh: Ayam Bakar Madu" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Protein Nabati</label>
+                                    <input type="text" id="comp-nabati" required placeholder="Contoh: Tempe Bacem" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Sayur</label>
+                                    <input type="text" id="comp-sayur" required placeholder="Contoh: Sup Buncis Wortel" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-600 mb-1">Buah</label>
+                                    <input type="text" id="comp-buah" required placeholder="Contoh: Pisang Ambon" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- INPUT NILAI AKG TERPISAH SETIAP PORSI -->
+                        <div class="pt-4 border-t border-slate-100 space-y-4">
+                            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-2">
+                                <i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i>
+                                Input Nilai AKG Berdasarkan Porsi (Energi, Protein, Lemak, Karbohidrat, Serat)
+                            </h4>
+
+                            <!-- AKG Porsi Besar -->
+                            <div class="bg-blue-50/60 p-4 rounded-2xl border border-blue-200">
+                                <span class="block text-xs font-bold text-blue-900 mb-3 flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-blue-600"></span>
+                                    AKG PORSI BESAR (Siswa SD / SMP / SMA)
+                                </span>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Energi (kcal)</label>
+                                        <input type="number" id="akg-besar-energi" required placeholder="580" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Protein (g)</label>
+                                        <input type="number" id="akg-besar-protein" required placeholder="32" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Lemak (g)</label>
+                                        <input type="number" id="akg-besar-lemak" required placeholder="16" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Karbohidrat (g)</label>
+                                        <input type="number" id="akg-besar-karbo" required placeholder="72" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Serat (g)</label>
+                                        <input type="number" id="akg-besar-serat" required placeholder="8" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AKG Porsi Kecil -->
+                            <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-200">
+                                <span class="block text-xs font-bold text-amber-900 mb-3 flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-amber-600"></span>
+                                    AKG PORSI KECIL (Anak PAUD / TK)
+                                </span>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Energi (kcal)</label>
+                                        <input type="number" id="akg-kecil-energi" required placeholder="420" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Protein (g)</label>
+                                        <input type="number" id="akg-kecil-protein" required placeholder="22" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Lemak (g)</label>
+                                        <input type="number" id="akg-kecil-lemak" required placeholder="12" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Karbohidrat (g)</label>
+                                        <input type="number" id="akg-kecil-karbo" required placeholder="55" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Serat (g)</label>
+                                        <input type="number" id="akg-kecil-serat" required placeholder="6" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AKG Porsi B3 -->
+                            <div class="bg-emerald-50/60 p-4 rounded-2xl border border-emerald-200">
+                                <span class="block text-xs font-bold text-emerald-900 mb-3 flex items-center gap-1.5">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+                                    AKG PORSI B3 (BUMIL, BUSUI, BALITA)
+                                </span>
+                                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Energi (kcal)</label>
+                                        <input type="number" id="akg-b3-energi" required placeholder="650" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Protein (g)</label>
+                                        <input type="number" id="akg-b3-protein" required placeholder="36" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Lemak (g)</label>
+                                        <input type="number" id="akg-b3-lemak" required placeholder="18" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Karbohidrat (g)</label>
+                                        <input type="number" id="akg-b3-karbo" required placeholder="80" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] font-semibold text-slate-600 mb-1">Serat (g)</label>
+                                        <input type="number" id="akg-b3-serat" required placeholder="10" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:ring-1 focus:ring-bgn-blue outline-none bg-white">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-100">
+                            <button type="button" onclick="resetMenuForm()" class="px-5 py-2.5 rounded-xl border border-slate-300 text-xs font-semibold text-slate-600 hover:bg-slate-100 transition-all">
+                                Reset Inputan
+                            </button>
+                            <button type="submit" class="px-6 py-2.5 rounded-xl bg-bgn-blue hover:bg-navy-800 text-white text-xs font-semibold shadow-md transition-all flex items-center gap-2">
+                                <i data-lucide="save" class="w-4 h-4"></i>
+                                <span>Simpan Menu MBG</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Table Managing Saved Menus -->
+                <div class="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm overflow-hidden">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-base font-bold font-heading text-slate-900">Riwayat Menu Tersimpan <span id="table-kitchen-name">Dapur SPPG AYULA</span></h3>
+                        <span id="saved-count-badge" class="px-2.5 py-1 bg-slate-100 text-slate-700 text-xs font-semibold rounded-full">0 Menu</span>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left text-xs text-slate-600">
+                            <thead class="bg-slate-50 text-slate-700 font-semibold border-b border-slate-200 uppercase tracking-wider">
+                                <tr>
+                                    <th class="p-3">Tanggal Sajian</th>
+                                    <th class="p-3">Foto Porsi</th>
+                                    <th class="p-3">Nama Menu</th>
+                                    <th class="p-3">Komponen Bahan</th>
+                                    <th class="p-3">Ringkasan AKG (Besar / Kecil / B3)</th>
+                                    <th class="p-3 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-table-body" class="divide-y divide-slate-100">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span id="footer-kitchen-name" class="font-bold text-slate-800">SPPG AYULA</span> • Dapur MBG Terstandar BGN
+            </div>
+            <p>© 2026 Badan Gizi Nasional (BGN) Republik Indonesia.</p>
+        </div>
+    </footer>
+
+    <script>
+        const AUTH_PIN = "123456";
+        let isAuthenticated = false;
+
+        // Active portion selector state per menu ID
+        let activePortions = {};
+
+        // Active date filter for public view ('ALL' or 'YYYY-MM-DD')
+        let selectedDateFilter = 'ALL';
+
+        const defaultSettings = {
+            kitchenName: 'SPPG AYULA',
+            badgeText: 'Dapur MBG',
+            subtitle: 'Menu Makan Bergizi Gratis (MBG) • Badan Gizi Nasional',
+            logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/Logo_Badan_Gizi_Nasional.png'
+        };
+
+        let uploadedLogoBase64 = '';
+
+        function getStoredSettings() {
+            const data = localStorage.getItem('sppg_ayula_settings');
+            return data ? JSON.parse(data) : defaultSettings;
+        }
+
+        function saveStoredSettings(settings) {
+            localStorage.setItem('sppg_ayula_settings', JSON.stringify(settings));
+        }
+
+        function applySettings() {
+            const settings = getStoredSettings();
+            
+            // Header
+            document.getElementById('header-kitchen-name').innerText = settings.kitchenName;
+            document.getElementById('header-badge').innerText = settings.badgeText;
+            document.getElementById('header-subtitle').innerText = settings.subtitle;
+            document.getElementById('header-logo-img').src = settings.logoUrl;
+
+            // Hero Banner
+            document.getElementById('hero-kitchen-name').innerText = 'Dapur ' + settings.kitchenName;
+
+            // Admin Bar & Tables
+            document.getElementById('admin-bar-kitchen-name').innerText = 'Dapur ' + settings.kitchenName;
+            document.getElementById('table-kitchen-name').innerText = 'Dapur ' + settings.kitchenName;
+
+            // Footer
+            document.getElementById('footer-kitchen-name').innerText = settings.kitchenName;
+
+            // Populate form
+            document.getElementById('setting-kitchen-name').value = settings.kitchenName;
+            document.getElementById('setting-badge').value = settings.badgeText;
+            document.getElementById('setting-subtitle').value = settings.subtitle;
+
+            document.getElementById('setting-logo-preview').src = settings.logoUrl;
+            uploadedLogoBase64 = settings.logoUrl;
+        }
+
+        function previewLogoImage(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedLogoBase64 = e.target.result;
+                document.getElementById('setting-logo-preview').src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleSaveSettings(e) {
+            e.preventDefault();
+            const newSettings = {
+                kitchenName: document.getElementById('setting-kitchen-name').value.trim(),
+                badgeText: document.getElementById('setting-badge').value.trim(),
+                subtitle: document.getElementById('setting-subtitle').value.trim(),
+                logoUrl: uploadedLogoBase64 || defaultSettings.logoUrl
+            };
+
+            saveStoredSettings(newSettings);
+            applySettings();
+            renderPublicGrid();
+            alert('Pengaturan profil dan nama dapur berhasil diperbarui!');
+        }
+
+        // Base64 storage for portion images
+        let imagesData = {
+            besar: '',
+            kecil: '',
+            b3: ''
+        };
+
+        // Helper date generator for default data
+        const todayIso = new Date().toISOString().split('T')[0];
+
+        // Sample Menu Data with Date & Portion AKGs
+        const defaultMenus = [
+            {
+                id: 'mbg-001',
+                date: todayIso,
+                name: 'Paket Nasi Merah Ayam Bakar & Sup Buncis',
+                images: {
+                    besar: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80',
+                    kecil: 'https://images.unsplash.com/photo-1567620832903-9fc6debc209f?auto=format&fit=crop&w=600&q=80',
+                    b3: 'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80'
+                },
+                components: {
+                    karbo: 'Nasi Merah',
+                    hewan: 'Ayam Bakar tanpa kulit',
+                    nabati: 'Tahu Tempe Bacem',
+                    sayur: 'Sup Buncis Wortel Segar',
+                    buah: 'Pisang Ambon 1 Buah'
+                },
+                akg: {
+                    besar: { energi: 580, protein: 32, lemak: 16, karbo: 72, serat: 8 },
+                    kecil: { energi: 420, protein: 22, lemak: 12, karbo: 55, serat: 6 },
+                    b3: { energi: 650, protein: 36, lemak: 18, karbo: 80, serat: 10 }
+                }
+            }
+        ];
+
+        function formatDateDisplay(dateStr) {
+            if (!dateStr) return 'Tanggal Tidak Diatur';
+            const parts = dateStr.split('-');
+            if (parts.length === 3) {
+                const dateObj = new Date(parts[0], parts[1] - 1, parts[2]);
+                return dateObj.toLocaleDateString('id-ID', {
+                    weekday: 'long',
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+            }
+            return dateStr;
+        }
+
+        function normalizeMenuData(m) {
+            if (!m.date) {
+                m.date = todayIso;
+            }
+            if (!m.akg || !m.akg.besar) {
+                const existing = m.akg || { energi: 500, protein: 25, lemak: 15, karbo: 60, serat: 7 };
+                m.akg = {
+                    besar: { ...existing },
+                    kecil: { energi: Math.round(existing.energi * 0.75), protein: Math.round(existing.protein * 0.75), lemak: Math.round(existing.lemak * 0.75), karbo: Math.round(existing.karbo * 0.75), serat: Math.round(existing.serat * 0.75) },
+                    b3: { energi: Math.round(existing.energi * 1.1), protein: Math.round(existing.protein * 1.1), lemak: Math.round(existing.lemak * 1.1), karbo: Math.round(existing.karbo * 1.1), serat: Math.round(existing.serat * 1.1) }
+                };
+            }
+            return m;
+        }
+
+        function getStoredMenus() {
+            const data = localStorage.getItem('sppg_ayula_v4_menus');
+            if (data) {
+                const parsed = JSON.parse(data);
+                return parsed.map(normalizeMenuData);
+            }
+            return defaultMenus.map(normalizeMenuData);
+        }
+
+        function saveStoredMenus(menus) {
+            localStorage.setItem('sppg_ayula_v4_menus', JSON.stringify(menus));
+        }
+
+        window.onload = function() {
+            document.getElementById('menu-date').value = todayIso;
+            lucide.createIcons();
+            applySettings();
+            populateDateFilterDropdown();
+            renderPublicGrid();
+            renderAdminTable();
+        };
+
+        function switchTab(tab) {
+            const btnPublic = document.getElementById('btn-tab-public');
+            const btnAdmin = document.getElementById('btn-tab-admin');
+            const viewPublic = document.getElementById('view-public');
+            const viewAdmin = document.getElementById('view-admin');
+
+            if (tab === 'public') {
+                viewPublic.classList.remove('hidden');
+                viewAdmin.classList.add('hidden');
+                btnPublic.className = "flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm bg-bgn-blue text-white";
+                btnAdmin.className = "flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200";
+                populateDateFilterDropdown();
+                renderPublicGrid();
+            } else {
+                viewPublic.classList.add('hidden');
+                viewAdmin.classList.remove('hidden');
+                btnAdmin.className = "flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm bg-bgn-blue text-white";
+                btnPublic.className = "flex items-center gap-2 px-3 sm:px-5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200";
+                checkAdminState();
+            }
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const pinInput = document.getElementById('pin-input').value;
+            const pinError = document.getElementById('pin-error');
+
+            if (pinInput === AUTH_PIN) {
+                isAuthenticated = true;
+                pinError.classList.add('hidden');
+                checkAdminState();
+            } else {
+                pinError.classList.remove('hidden');
+                document.getElementById('pin-input').value = '';
+            }
+        }
+
+        function checkAdminState() {
+            const authModal = document.getElementById('admin-auth-modal');
+            const dashboard = document.getElementById('admin-dashboard');
+
+            if (isAuthenticated) {
+                authModal.classList.add('hidden');
+                dashboard.classList.remove('hidden');
+            } else {
+                authModal.classList.remove('hidden');
+                dashboard.classList.add('hidden');
+            }
+        }
+
+        function lockAdmin() {
+            isAuthenticated = false;
+            document.getElementById('pin-input').value = '';
+            checkAdminState();
+        }
+
+        function previewPortionImage(event, type) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagesData[type] = e.target.result;
+                document.getElementById(`prev-${type}`).src = e.target.result;
+                document.getElementById(`container-${type}`).classList.remove('hidden');
+                document.getElementById(`ph-${type}`).classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function handleSaveMenu(e) {
+            e.preventDefault();
+
+            const menuId = document.getElementById('menu-id').value;
+            const name = document.getElementById('menu-name').value;
+            const menuDate = document.getElementById('menu-date').value || todayIso;
+            const fallbackImg = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=600&q=80';
+
+            const menuObj = {
+                id: menuId || 'mbg-' + Date.now(),
+                date: menuDate,
+                name: name,
+                images: {
+                    besar: imagesData.besar || fallbackImg,
+                    kecil: imagesData.kecil || fallbackImg,
+                    b3: imagesData.b3 || fallbackImg
+                },
+                components: {
+                    karbo: document.getElementById('comp-karbo').value,
+                    hewan: document.getElementById('comp-hewan').value,
+                    nabati: document.getElementById('comp-nabati').value,
+                    sayur: document.getElementById('comp-sayur').value,
+                    buah: document.getElementById('comp-buah').value
+                },
+                akg: {
+                    besar: {
+                        energi: Number(document.getElementById('akg-besar-energi').value) || 0,
+                        protein: Number(document.getElementById('akg-besar-protein').value) || 0,
+                        lemak: Number(document.getElementById('akg-besar-lemak').value) || 0,
+                        karbo: Number(document.getElementById('akg-besar-karbo').value) || 0,
+                        serat: Number(document.getElementById('akg-besar-serat').value) || 0
+                    },
+                    kecil: {
+                        energi: Number(document.getElementById('akg-kecil-energi').value) || 0,
+                        protein: Number(document.getElementById('akg-kecil-protein').value) || 0,
+                        lemak: Number(document.getElementById('akg-kecil-lemak').value) || 0,
+                        karbo: Number(document.getElementById('akg-kecil-karbo').value) || 0,
+                        serat: Number(document.getElementById('akg-kecil-serat').value) || 0
+                    },
+                    b3: {
+                        energi: Number(document.getElementById('akg-b3-energi').value) || 0,
+                        protein: Number(document.getElementById('akg-b3-protein').value) || 0,
+                        lemak: Number(document.getElementById('akg-b3-lemak').value) || 0,
+                        karbo: Number(document.getElementById('akg-b3-karbo').value) || 0,
+                        serat: Number(document.getElementById('akg-b3-serat').value) || 0
+                    }
+                }
+            };
+
+            let menus = getStoredMenus();
+            if (menuId) {
+                menus = menus.map(m => m.id === menuId ? menuObj : m);
+            } else {
+                menus.unshift(menuObj);
+            }
+
+            saveStoredMenus(menus);
+            resetMenuForm();
+            renderAdminTable();
+            populateDateFilterDropdown();
+            renderPublicGrid();
+
+            alert('Menu MBG Dapur SPPG AYULA berhasil disimpan!');
+        }
+
+        function resetMenuForm() {
+            document.getElementById('menu-form').reset();
+            document.getElementById('menu-id').value = '';
+            document.getElementById('menu-date').value = todayIso;
+            imagesData = { besar: '', kecil: '', b3: '' };
+
+            ['besar', 'kecil', 'b3'].forEach(type => {
+                document.getElementById(`container-${type}`).classList.add('hidden');
+                document.getElementById(`ph-${type}`).classList.remove('hidden');
+            });
+
+            document.getElementById('form-title').innerText = 'Input Menu MBG Baru';
+        }
+
+        // Populate public date history filter
+        function populateDateFilterDropdown() {
+            const menus = getStoredMenus();
+            const select = document.getElementById('public-date-filter');
+            const dates = [...new Set(menus.map(m => m.date))].sort().reverse();
+
+            let optionsHtml = `<option value="ALL" ${selectedDateFilter === 'ALL' ? 'selected' : ''}>Semua Tanggal (Riwayat Lengkap)</option>`;
+            dates.forEach(d => {
+                const formatted = formatDateDisplay(d);
+                optionsHtml += `<option value="${d}" ${selectedDateFilter === d ? 'selected' : ''}>${formatted}</option>`;
+            });
+
+            select.innerHTML = optionsHtml;
+        }
+
+        function filterPublicByDate() {
+            selectedDateFilter = document.getElementById('public-date-filter').value;
+            renderPublicGrid();
+        }
+
+        function selectPortion(menuId, portionType) {
+            activePortions[menuId] = portionType;
+            renderPublicGrid();
+        }
+
+        function renderPublicGrid() {
+            let menus = getStoredMenus();
+            const settings = getStoredSettings();
+            const grid = document.getElementById('public-menu-grid');
+            const emptyState = document.getElementById('public-empty-state');
+            grid.innerHTML = '';
+
+            // Filter by selected date if not ALL
+            if (selectedDateFilter !== 'ALL') {
+                menus = menus.filter(m => m.date === selectedDateFilter);
+            }
+
+            if (menus.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            menus.forEach(m => {
+                const currentPortion = activePortions[m.id] || 'besar';
+                const currentAKG = m.akg[currentPortion] || { energi: 0, protein: 0, lemak: 0, karbo: 0, serat: 0 };
+
+                let portionLabel = 'Porsi Besar (Siswa SD/SMP/SMA)';
+                let portionColorClass = 'bg-blue-600 text-white';
+                if (currentPortion === 'kecil') {
+                    portionLabel = 'Porsi Kecil (Anak PAUD/TK)';
+                    portionColorClass = 'bg-amber-600 text-white';
+                } else if (currentPortion === 'b3') {
+                    portionLabel = 'Porsi B3 (BUMIL, BUSUI, BALITA)';
+                    portionColorClass = 'bg-emerald-600 text-white';
+                }
+
+                const dateFormatted = formatDateDisplay(m.date);
+
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-3xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 p-6 space-y-6";
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+                        <div>
+                            <div class="flex items-center gap-2 mb-1">
+                                <span class="inline-block px-3 py-0.5 bg-bgn-lightblue text-bgn-blue font-bold text-xs rounded-full">Dapur ${settings.kitchenName}</span>
+                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 bg-amber-50 text-amber-800 border border-amber-200 font-semibold text-xs rounded-full">
+                                    <i data-lucide="calendar" class="w-3 h-3"></i>
+                                    ${dateFormatted}
+                                </span>
+                            </div>
+                            <h3 class="text-xl font-bold font-heading text-slate-900">${m.name}</h3>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Portion Selector Buttons & Photos -->
+                    <div>
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-3">
+                            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="touch-tone" class="w-4 h-4 text-bgn-blue"></i>
+                                Pilih Porsi Sajian (Pilih Untuk Mengubah Tampilan AKG)
+                            </h4>
+                            <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full ${portionColorClass}">
+                                AKG Aktif: ${portionLabel}
+                            </span>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            
+                            <!-- Porsi Besar Button Card -->
+                            <button type="button" onclick="selectPortion('${m.id}', 'besar')" 
+                                class="text-left rounded-2xl border-2 transition-all overflow-hidden bg-slate-50 flex flex-col focus:outline-none ${currentPortion === 'besar' ? 'border-blue-600 ring-2 ring-blue-200 shadow-md scale-[1.02]' : 'border-slate-200 opacity-80 hover:opacity-100'}">
+                                <div class="h-36 bg-slate-200 relative w-full">
+                                    <img src="${m.images.besar}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/0d2847/ffffff?text=Porsi+Besar'">
+                                    <span class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">1. Porsi Besar</span>
+                                </div>
+                                <div class="p-3 text-center bg-white w-full">
+                                    <p class="text-xs font-bold text-slate-800">Siswa SD / SMP / SMA</p>
+                                    <p class="text-[10px] text-blue-600 font-semibold mt-0.5">${m.akg.besar.energi} kcal • P:${m.akg.besar.protein}g</p>
+                                </div>
+                            </button>
+
+                            <!-- Porsi Kecil Button Card -->
+                            <button type="button" onclick="selectPortion('${m.id}', 'kecil')" 
+                                class="text-left rounded-2xl border-2 transition-all overflow-hidden bg-slate-50 flex flex-col focus:outline-none ${currentPortion === 'kecil' ? 'border-amber-600 ring-2 ring-amber-200 shadow-md scale-[1.02]' : 'border-slate-200 opacity-80 hover:opacity-100'}">
+                                <div class="h-36 bg-slate-200 relative w-full">
+                                    <img src="${m.images.kecil}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/d97706/ffffff?text=Porsi+Kecil'">
+                                    <span class="absolute top-2 left-2 bg-amber-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">2. Porsi Kecil</span>
+                                </div>
+                                <div class="p-3 text-center bg-white w-full">
+                                    <p class="text-xs font-bold text-slate-800">Anak PAUD / TK</p>
+                                    <p class="text-[10px] text-amber-600 font-semibold mt-0.5">${m.akg.kecil.energi} kcal • P:${m.akg.kecil.protein}g</p>
+                                </div>
+                            </button>
+
+                            <!-- Porsi B3 Button Card -->
+                            <button type="button" onclick="selectPortion('${m.id}', 'b3')" 
+                                class="text-left rounded-2xl border-2 transition-all overflow-hidden bg-slate-50 flex flex-col focus:outline-none ${currentPortion === 'b3' ? 'border-emerald-600 ring-2 ring-emerald-200 shadow-md scale-[1.02]' : 'border-slate-200 opacity-80 hover:opacity-100'}">
+                                <div class="h-36 bg-slate-200 relative w-full">
+                                    <img src="${m.images.b3}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400/16a34a/ffffff?text=Porsi+B3'">
+                                    <span class="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">3. Porsi B3</span>
+                                </div>
+                                <div class="p-3 text-center bg-white w-full">
+                                    <p class="text-xs font-bold text-slate-800">BUMIL, BUSUI, BALITA</p>
+                                    <p class="text-[10px] text-emerald-600 font-semibold mt-0.5">${m.akg.b3.energi} kcal • P:${m.akg.b3.protein}g</p>
+                                </div>
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <!-- Components and Dynamic AKG Grid -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+                        
+                        <!-- Rincian Komponen Makanan -->
+                        <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                            <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3 flex items-center gap-1.5 border-b border-slate-200 pb-2">
+                                <i data-lucide="utensils" class="w-4 h-4 text-amber-600"></i>
+                                Rincian Komponen Bahan Makanan
+                            </h4>
+                            <div class="space-y-2 text-xs">
+                                <div class="flex justify-between py-1 border-b border-slate-200/60">
+                                    <span class="text-slate-500 font-medium">🌾 Karbohidrat:</span>
+                                    <span class="font-bold text-slate-800">${m.components.karbo}</span>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200/60">
+                                    <span class="text-slate-500 font-medium">🍗 Protein Hewani:</span>
+                                    <span class="font-bold text-slate-800">${m.components.hewan}</span>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200/60">
+                                    <span class="text-slate-500 font-medium">🧆 Protein Nabati:</span>
+                                    <span class="font-bold text-slate-800">${m.components.nabati}</span>
+                                </div>
+                                <div class="flex justify-between py-1 border-b border-slate-200/60">
+                                    <span class="text-slate-500 font-medium">🥦 Sayur:</span>
+                                    <span class="font-bold text-slate-800">${m.components.sayur}</span>
+                                </div>
+                                <div class="flex justify-between py-1">
+                                    <span class="text-slate-500 font-medium">🍎 Buah:</span>
+                                    <span class="font-bold text-slate-800">${m.components.buah}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dynamic Table Nilai AKG Based on Selected Portion -->
+                        <div class="bg-bgn-greenlight/80 p-4 rounded-2xl border border-emerald-200 flex flex-col justify-between">
+                            <div>
+                                <div class="flex items-center justify-between border-b border-emerald-200 pb-2 mb-3">
+                                    <h4 class="text-xs font-bold text-emerald-900 uppercase tracking-wider flex items-center gap-1.5">
+                                        <i data-lucide="activity" class="w-4 h-4 text-emerald-600"></i>
+                                        Nilai AKG (${portionLabel})
+                                    </h4>
+                                    <span class="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded-md">
+                                        Terpilih
+                                    </span>
+                                </div>
+                                <div class="grid grid-cols-5 gap-2 text-center">
+                                    <div class="bg-white p-2.5 rounded-xl border border-emerald-100 shadow-xs">
+                                        <span class="block text-[10px] text-slate-400 font-semibold uppercase">Energi</span>
+                                        <span class="text-sm font-black text-emerald-700">${currentAKG.energi}</span>
+                                        <span class="block text-[9px] text-slate-400">kcal</span>
+                                    </div>
+                                    <div class="bg-white p-2.5 rounded-xl border border-emerald-100 shadow-xs">
+                                        <span class="block text-[10px] text-slate-400 font-semibold uppercase">Protein</span>
+                                        <span class="text-sm font-black text-slate-800">${currentAKG.protein}</span>
+                                        <span class="block text-[9px] text-slate-400">gram</span>
+                                    </div>
+                                    <div class="bg-white p-2.5 rounded-xl border border-emerald-100 shadow-xs">
+                                        <span class="block text-[10px] text-slate-400 font-semibold uppercase">Lemak</span>
+                                        <span class="text-sm font-black text-slate-800">${currentAKG.lemak}</span>
+                                        <span class="block text-[9px] text-slate-400">gram</span>
+                                    </div>
+                                    <div class="bg-white p-2.5 rounded-xl border border-emerald-100 shadow-xs">
+                                        <span class="block text-[10px] text-slate-400 font-semibold uppercase">Karbo</span>
+                                        <span class="text-sm font-black text-slate-800">${currentAKG.karbo}</span>
+                                        <span class="block text-[9px] text-slate-400">gram</span>
+                                    </div>
+                                    <div class="bg-white p-2.5 rounded-xl border border-emerald-100 shadow-xs">
+                                        <span class="block text-[10px] text-slate-400 font-semibold uppercase">Serat</span>
+                                        <span class="text-sm font-black text-slate-800">${currentAKG.serat}</span>
+                                        <span class="block text-[9px] text-slate-400">gram</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-[10px] text-emerald-700 italic mt-3 text-right">* Nilai gizi disesuaikan otomatis berdasarkan porsi piring yang Anda pilih.</p>
+                        </div>
+
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        function renderAdminTable() {
+            const menus = getStoredMenus();
+            const tbody = document.getElementById('admin-table-body');
+            document.getElementById('saved-count-badge').innerText = `${menus.length} Menu`;
+            tbody.innerHTML = '';
+
+            if (menus.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Belum ada menu tersimpan.</td></tr>`;
+                return;
+            }
+
+            menus.forEach(m => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+
+                const formattedDate = formatDateDisplay(m.date);
+
+                tr.innerHTML = `
+                    <td class="p-3">
+                        <span class="inline-flex items-center gap-1 font-semibold text-slate-700 text-xs bg-slate-100 px-2 py-1 rounded-md border border-slate-200">
+                            <i data-lucide="calendar" class="w-3 h-3 text-slate-500"></i>
+                            ${formattedDate}
+                        </span>
+                    </td>
+                    <td class="p-3">
+                        <div class="flex items-center gap-1">
+                            <img src="${m.images.besar}" class="w-8 h-8 object-cover rounded border border-slate-200" title="Porsi Besar" onerror="this.src='https://placehold.co/50x50/0d2847/ffffff?text=PB'">
+                            <img src="${m.images.kecil}" class="w-8 h-8 object-cover rounded border border-slate-200" title="Porsi Kecil" onerror="this.src='https://placehold.co/50x50/d97706/ffffff?text=PK'">
+                            <img src="${m.images.b3}" class="w-8 h-8 object-cover rounded border border-slate-200" title="Porsi B3" onerror="this.src='https://placehold.co/50x50/16a34a/ffffff?text=B3'">
+                        </div>
+                    </td>
+                    <td class="p-3 font-semibold text-slate-800">${m.name}</td>
+                    <td class="p-3 text-[11px] text-slate-500">
+                        ${m.components.karbo}, ${m.components.hewan}, ${m.components.sayur}
+                    </td>
+                    <td class="p-3 text-[11px] font-mono space-y-0.5">
+                        <div class="text-blue-700 font-bold">Besar: ${m.akg.besar.energi}kcal | P:${m.akg.besar.protein}g</div>
+                        <div class="text-amber-700">Kecil: ${m.akg.kecil.energi}kcal | P:${m.akg.kecil.protein}g</div>
+                        <div class="text-emerald-700">B3: ${m.akg.b3.energi}kcal | P:${m.akg.b3.protein}g</div>
+                    </td>
+                    <td class="p-3 text-right space-x-1">
+                        <button onclick="editMenu('${m.id}')" class="p-2 text-slate-600 hover:text-bgn-blue hover:bg-slate-100 rounded-lg transition-all" title="Edit Menu">
+                            <i data-lucide="edit-2" class="w-4 h-4"></i>
+                        </button>
+                        <button onclick="deleteMenu('${m.id}')" class="p-2 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all" title="Hapus Menu">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            lucide.createIcons();
+        }
+
+        function editMenu(id) {
+            const menus = getStoredMenus();
+            const menu = menus.find(m => m.id === id);
+            if (!menu) return;
+
+            document.getElementById('menu-id').value = menu.id;
+            document.getElementById('menu-name').value = menu.name;
+            document.getElementById('menu-date').value = menu.date || todayIso;
+
+            imagesData = { ...menu.images };
+            ['besar', 'kecil', 'b3'].forEach(type => {
+                if (imagesData[type]) {
+                    document.getElementById(`prev-${type}`).src = imagesData[type];
+                    document.getElementById(`container-${type}`).classList.remove('hidden');
+                    document.getElementById(`ph-${type}`).classList.add('hidden');
+                }
+            });
+
+            document.getElementById('comp-karbo').value = menu.components.karbo;
+            document.getElementById('comp-hewan').value = menu.components.hewan;
+            document.getElementById('comp-nabati').value = menu.components.nabati;
+            document.getElementById('comp-sayur').value = menu.components.sayur;
+            document.getElementById('comp-buah').value = menu.components.buah;
+
+            ['besar', 'kecil', 'b3'].forEach(type => {
+                const a = menu.akg[type] || {};
+                document.getElementById(`akg-${type}-energi`).value = a.energi || '';
+                document.getElementById(`akg-${type}-protein`).value = a.protein || '';
+                document.getElementById(`akg-${type}-lemak`).value = a.lemak || '';
+                document.getElementById(`akg-${type}-karbo`).value = a.karbo || '';
+                document.getElementById(`akg-${type}-serat`).value = a.serat || '';
+            });
+
+            document.getElementById('form-title').innerText = 'Edit Menu MBG';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function deleteMenu(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus menu MBG ini?')) {
+                let menus = getStoredMenus();
+                menus = menus.filter(m => m.id !== id);
+                saveStoredMenus(menus);
+                renderAdminTable();
+                populateDateFilterDropdown();
+                renderPublicGrid();
+            }
+        }
+    </script>
+</body>
+</html>
